@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup Page Of RFID System</title>
+    <link rel="stylesheet" href="login_style.css">
+</head>
+<body>
+
+    <div class="container" >
+        <h2 id="formTitle">Login to RFID System</h2>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Enter Email" required><br>
+            <input type="password" id="loginPassword" placeholder="Enter Password" required><br>
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="#" id="showSignup">Sign up here</a></p>
+        </form>
+
+        <!-- Signup Form (Initially Hidden) -->
+        <form id="signupForm" style="display: none;">
+            <input type="email" id="signupEmail" placeholder="Enter Email" required><br>
+            <input type="password" id="signupPassword" placeholder="Enter Password" required><br>
+            <button type="submit" style="background-color:green">Sign Up</button>
+            <p>Already have an account? <a href="#" id="showLogin">Login here</a></p>
+        </form>
+    </div>
+
+    <script>
+        // Toggle between Login & Signup Forms
+        document.getElementById("showSignup").addEventListener("click", function() {
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("signupForm").style.display = "block";
+            document.getElementById("formTitle").innerText = "Create an Account";
+        });
+
+        document.getElementById("showLogin").addEventListener("click", function() {
+            document.getElementById("signupForm").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+            document.getElementById("formTitle").innerText = "Login to RFID System";
+        });
+
+        // Signup Functionality
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let email = document.getElementById("signupEmail").value;
+            let password = document.getElementById("signupPassword").value;
+
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("userPassword", password);
+
+            alert("Signup successful! You can now log in.");
+            document.getElementById("signupForm").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+            document.getElementById("formTitle").innerText = "Login to RFID System";
+        });
+
+        // Login Functionality
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let email = document.getElementById("loginEmail").value;
+            let password = document.getElementById("loginPassword").value;
+
+            let storedEmail = localStorage.getItem("userEmail");
+            let storedPassword = localStorage.getItem("userPassword");
+
+            if (email === storedEmail && password === storedPassword) {
+                localStorage.setItem("loggedIn", "true"); // Store session
+                window.location.href = "rfid.html"; // Redirect to RFID page
+            } else {
+                alert("Invalid email or password! Please try again.");
+            }
+        });
+    </script>
+
+</body>
+</html>
+
